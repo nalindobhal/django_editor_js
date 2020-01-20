@@ -49,16 +49,15 @@ class JsonToHtml(object):
         
         # json_data = json.loads(json_data['blocks'])
         for i in json_data['blocks']:
-            for k, v in i.items():
-                func_name = self.get_rendeing_function_name(i)
-                self.json_block = i
-                getattr(self, func_name)()
+            func_name = self.get_rendeing_function_name(i)
+            self.json_block = i
+            getattr(self, func_name)()
 
 
     def get_rendeing_function_name(self, json_dict):
 
         tag = json_dict['type']
-        return 'render_{}_html'.format(tag)
+        return 'render_%s_html' %tag
 
     def render_header_html(self):
         block=self.json_block
@@ -70,6 +69,14 @@ class JsonToHtml(object):
         block=self.json_block
         p_tag = self.tag_map[block['type']]
         return self.create_rendered_html("%s".join(p_tag), (block['data']['text']))
+
+    def render_list_html(self):
+        block=self.json_block
+        list_type = block['data']['style']
+        list_tag = self.tag_map[block['type'] + '_' + list_type]
+        list_items = block['type'] + '_' + 'items'
+        list_items_html = [list_items[0] + i + list_items[1] for i in list_items]
+        return self.create_rendered_html("<%s>%s</%s>", (list_tag, "", list_tag))
 
     def create_rendered_html(self, markup, params):
         html = markup % params
