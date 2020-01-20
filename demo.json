@@ -147,7 +147,13 @@
                 "caption" : "<a href=\"https://www.python.org/dev/peps/pep-0020/#id3\">The Zen of Python</a>",
                 "alignment" : "left"
             }
-        }
+        },
+          {
+              "type": "paragraph",
+              "data": {
+                  "text": "<b>Some Bold Text.</b><br>"
+              }
+          }
     ],
     "version" : "2.16.1"
 }
